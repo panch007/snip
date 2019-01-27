@@ -1,0 +1,2 @@
+% my ( $title, $content) = @_;
+% layout 'default_uplad';

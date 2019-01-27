@@ -1,0 +1,50 @@
+body { font-family:"Times New Roman",Georgia,serif; , font-size: 10px; background-color:#E8EEEE; }
+.codescroll  {  
+background-color:#AAFFDD; width:100%;  
+border: none;
+box-sizing: content-box;
+left: 0;
+margin: 0;
+overflow-y: scroll ;
+padding: 0;
+position: relative;
+top: 0;
+}
+.textarea1 {
+background-color:#AAFFDD; width:80%; 
+}
+.url1 {
+background-color:#E8FFEE; width:80%; 
+}
+#leftcol { /* Левая колонка */
+padding: 4px;
+float: left;
+width: 18%; 
+height : 400px;
+background-color:#E8EEEE; 
+border: 2px solid #F0FFF0;
+}
+#rightcol { /* Правая колонка */
+margin-left: 20%; /* Отступ слева */
+}
+.div_of_form { background-color:#E8FFEE; width:100%;  }
+.baseTable {
+width: 100%; 
+border-collapse: collapse;
+border-color: black;
+border: 1px solid black;
+float: none;
+text-align: left;
+color: black;
+font-size: 12;
+font-weight: normal;	
+position: relative ;	
+}
+.baseTable td {
+border: 1px solid black;
+}
+.tdNum {
+text-align: right;
+border-color: black;
+}
+

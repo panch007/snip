@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html> 
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/styles/default.css">
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/highlight.pack.js"></script>
+    <script src="/main.js"></script>
+  </head>
+  <body>
+  <div class ='div_of_form'>
+    Загрузка 
+  </div>
+  <div class ='div_of_form'>
+    <form enctype = "multipart/form-data" method='post' action=''>
+      Имя сниппета: <input name='snippets_name' type='text'>
+      Ключ (не обязательно): <input name='tiket' type='text'>
+      Язык программирования: <select name='language' id='language'></select>
+      <div id = "upload1">
+        Загрузить файл с кодом: <input name='upload' type='file' /><br/>
+      </div> 
+      <a href = "javascript:add_upload()">Добавить загрузку файла </a>
+      <div id = "url1">
+        Ссылка в интернете: <input name='url_of_fragment' type='text'  value='' class = 'url1'/> <br/>
+      </div>
+      <a href = "javascript:add_url()" >Добавить http ссылку на файл </a>
+      <div id = "text_area1" >
+        Ввод кода: <textarea name='text_area_of_fragment' class = 'textarea1' /></textarea><br/>
+      </div>
+      <a href = "javascript:add_text_area()">Добавить окно ввода текста</a><br/>
+      <input type='submit' value = 'Загрузить' /> 
+    </form>
+  </div>
+% my $url = $c->url_for("/")->to_abs;
+    <a href="<%= $url %>"> Список сниппетов </a>
+  </body>
+   <script>
+    hljs.initHighlightingOnLoad();
+    var lang_installed = ''+hljs.listLanguages();     
+    var lang_array = lang_installed.split(/,/);
+    $.each(lang_array, function(index, value) { 
+      $('#language').append('<option value=' + value + '>' + value + '</option>');
+    });  
+   </script>
+</html>
