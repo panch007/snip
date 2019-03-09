@@ -9,45 +9,50 @@
     <title><%= $title %></title>
   </head>
   <body>
+<div class='wrapper'>
     <div id ="leftcol">
 % my $url2 = $c->url_for('upload/')->to_abs;
-      <a href="<%= $url2 %>"> добавить сниппет </a>
+      <a href="<%= $url2 %>?new=1"> добавить сниппет </a>
 % my $url = $c->url_for('/')->to_abs;
-% if ($next_date) {
+% if ($next_date ne $sdate) {
       <br/><a href="<%= $url %>?sdate=<%= $next_date %>"> next >> </a>
 % }
-% if ($prev_date) {
+% if ($prev_date ne $sdate) {
       <br/><a href="<%= $url %>?sdate=<%= $prev_date %>"> << prev </a>
 % }
       <div class ='statistic'> всего сниппетов : <%= $all_amount_of_snippets %>
+      <br/>всего фрагментов : <%= $all_amount_of_fragments %>
         <table class='baseTable'><tbody>
-% for my $i1 (@$snippets_by_languges) {
+% for my $i1 (@$fragments_by_languges) {
           <tr><td><%= $i1->{'language'} %></td><td class='tdNum'><%= $i1->{'amount'} %></td></tr>
 % }
        </tbody></table>
       </div>
     </div>
-    <div id ="rightcol" >
+    <div id ="rightcol" > 
 % my @content_a = @$content ;
 % my $url1 = $c->url_for("/snip")->to_abs;
 % foreach my $i (@content_a) {
       <a href="<%= $url1 %>?snip=<%= $i->{'idsnippet'} %>">
-        <div> Сниппет 
+        <div> Сниппет
       <%= $i->{'name'} %> &nbsp;
       № <%= $i->{'idsnippet'} %> &nbsp;
       <%= $i->{'language'} %> &nbsp;
-      добавлен <%= human_date $i->{'add_date'} %> &nbsp; 
+      добавлен <%= human_date $i->{'add_date'} %> &nbsp;
         </div>
       </a>
 %   my $text = $i->{text_of_fragment};
-%   my @text_array = split( /[\n\r]/, $text);
-%   if ($#text_array > $limit_line) {
-%     $#text_array = $limit_line;
-%     $text = join( "\n", @text_array);
-%   };
+%   if ($text) {
+%     my @text_array = split( /[\n\r]/, $text);
+%     if ($#text_array > $limit_line) {
+%       $#text_array = $limit_line;
+%       $text = join( "\n", @text_array);
+%     }
+%   }
       <div class = 'codescroll' ><pre><code class='<%= $i->{'language'} %>'><%= $text %></code></pre></div>
 % }
     </div>
+</div>
     <script>hljs.initHighlightingOnLoad();</script>
   </body>
 </html>

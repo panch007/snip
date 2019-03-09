@@ -1,2 +1,3 @@
-% my ( $title, $content) = @_;
+% my ( $err, $title, $content, $options_language) = @_;
 % layout 'default_uplad';
+

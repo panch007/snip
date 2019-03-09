@@ -1,6 +1,12 @@
+/*
+snip  с флексом
+*/
+.wrapper{
+  display:flex;
+}
 body { font-family:"Times New Roman",Georgia,serif; , font-size: 10px; background-color:#E8EEEE; }
-.codescroll  {  
-background-color:#AAFFDD; width:100%;  
+.codescroll  {
+background-color:#AAFFDD; width:100%;
 border: none;
 box-sizing: content-box;
 left: 0;
@@ -10,26 +16,26 @@ padding: 0;
 position: relative;
 top: 0;
 }
-.textarea1 {
-background-color:#AAFFDD; width:80%; 
+.textarea_class {
+background-color:#AAFFDD; width:80%;
 }
-.url1 {
-background-color:#E8FFEE; width:80%; 
+.url_class {
+background-color:#E8FFEE; width:60%;
 }
 #leftcol { /* Левая колонка */
 padding: 4px;
-float: left;
-width: 18%; 
+width: 18%;
 height : 400px;
-background-color:#E8EEEE; 
+background-color:#E8EEEE;
 border: 2px solid #F0FFF0;
 }
 #rightcol { /* Правая колонка */
-margin-left: 20%; /* Отступ слева */
+margin : 10px;
+width :  100%;
 }
 .div_of_form { background-color:#E8FFEE; width:100%;  }
 .baseTable {
-width: 100%; 
+width: 100%;
 border-collapse: collapse;
 border-color: black;
 border: 1px solid black;
@@ -47,4 +53,5 @@ border: 1px solid black;
 text-align: right;
 border-color: black;
 }
+
 

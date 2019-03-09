@@ -1,2 +1,5 @@
-% my ( $content , $title) = @_;
+% my $content = shift;
+% my $title = shift;
+% my $err = shift;
+
 % layout 'default_snip';

@@ -1,25 +1,27 @@
+
 <!DOCTYPE html>
-<html> 
+<html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="stylesheet" href="/main.css">
   <link rel="stylesheet" href="/styles/default.css">
   <script src="/js/jquery-3.3.1.min.js"></script>
   <script src="/js/highlight.pack.js"></script>
-  <title><%= $title %></title> 
+  <title><%= $title %></title>
 </head>
 <body>
   <div>
     <script>hljs.initHighlightingOnLoad();</script>
+      <%= $err %>
 % my $i=$content->[0];
-    <div> Сниппет 
+    <div id="title"> Сниппет  
       <%= $i->{'name'} %> &nbsp;
       № <%= $i->{'idsnippet'} %> &nbsp;
-      <%= $i->{'language'} %> &nbsp;
-      добавлен <%= human_date $i->{'add_date'} %> &nbsp;      
+      добавлен <%= human_date $i->{'add_date'} %> &nbsp;
     </div>
 %
-% for my $i (@$content) { 
+% for my $i (@$content) {
+    <div> <%= $i->{'language'} %> &nbsp; </div>
     <div class = 'codescroll' ><pre><code class="<%= $i->{'language'} %>"><%= $i->{'text_of_fragment'} %></code></pre></div>
 % }
   </div>

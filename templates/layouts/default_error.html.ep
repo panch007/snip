@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="/main.css">
+  <link rel="stylesheet" href="/styles/default.css">
+  <script src="/js/jquery-3.3.1.min.js"></script>
+  <script src="/js/highlight.pack.js"></script>
+  <title><%= $title %></title>
+</head>
+<body>
+   Обнаружена ошибка
+% my $url = $c->url_for("/")->to_abs;
+   <a href="<%= $url %>"> Список сниппетов </a>
+</body>
+</html>

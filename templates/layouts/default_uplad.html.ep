@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html> 
+<html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="/main.css">
@@ -9,38 +9,119 @@
     <script src="/main.js"></script>
   </head>
   <body>
+% my $i = 0 ;
+% my %params1 = map { $_ => 1 } @{$content->{'languages1'}};
+% my %params2 = map { $_ => 1 } @{$content->{'languages2'}};
+% my %params3 = map { $_ => 1 } @{$content->{'languages3'}};
   <div class ='div_of_form'>
-    Загрузка 
-  </div>
-  <div class ='div_of_form'>
-    <form enctype = "multipart/form-data" method='post' action=''>
-      Имя сниппета: <input name='snippets_name' type='text'>
-      Ключ (не обязательно): <input name='tiket' type='text'>
-      Язык программирования: <select name='language' id='language'></select>
-      <div id = "upload1">
-        Загрузить файл с кодом: <input name='upload' type='file' /><br/>
-      </div> 
-      <a href = "javascript:add_upload()">Добавить загрузку файла </a>
-      <div id = "url1">
-        Ссылка в интернете: <input name='url_of_fragment' type='text'  value='' class = 'url1'/> <br/>
+    <form enctype = "multipart/form-data" method = 'post' action = '' id = 'create_form' >
+      Имя сниппета: <input name='snippets_name' type='text' id='snippets_name' value='<%= $content->{'snippets_name'} %>'/>
+      Ключ (не обязательно): <input name='tiket' type='text' value='<%= $content->{'tiket'} %>' >
+      <div id = "upload_wrap">
+% $i = 0;
+% for my $op (@{$content->{'file'}}) {
+% if ($op) {
+        <div id = "upload">
+          Язык программирования: <select name='language1' id='language'>
+%   for my $op_lang (@$options_language) {
+%     my $sel = ''; 
+%     if ($op_lang->{name} eq $content->{'languages1'}->[$i]) {       
+%       $sel =' selected ';
+%     }
+           <option <%= $sel %> value= '<%= $op_lang->{name} %>' ><%= $op_lang->{name} %></option>
+%   }
+          </select>
+  Загрузить файл с кодом:  <input name='upload' type='file' value = ""  /><br/>
+        </div>
+% }
+%    ++$i;
+% }
+        <div id = "upload">
+          Язык программирования: <select name='language1'  id='language'>
+% for my  $op (@$options_language) {
+%   my $sel = ''; 
+%   if (exists($params1{$op->{name}})) {       
+%     $sel =' selected ';
+%   }
+
+            <option  value= '<%= $op->{name} %>' ><%= $op->{name} %></option>
+% }
+          </select>
+          Загрузить файл с кодом: <input name='upload' type='file' /><br/>
+        </div>
       </div>
-      <a href = "javascript:add_url()" >Добавить http ссылку на файл </a>
-      <div id = "text_area1" >
-        Ввод кода: <textarea name='text_area_of_fragment' class = 'textarea1' /></textarea><br/>
+      <a href = "" id="addupload">Добавить загрузку файла </a>
+      <div id = "url_wrap">
+% $i = 0;
+% for my $op (@{$content->{'url_of_fragment'}}) {
+% if ($op && ($op ne '')) {
+        <div id = "url">
+          Язык программирования: <select name='language2' id='language'>
+%   for my $op_lang (@$options_language) {
+%     my $sel = ''; 
+%     if ($op_lang->{name} eq $content->{'languages2'}->[$i]) {       
+%       $sel =' selected ';
+%     }
+           <option <%= $sel %> value= '<%= $op_lang->{name} %>' ><%= $op_lang->{name} %></option>
+
+%   }
+          </select>
+          Ссылка в интернете: <input name='url_of_fragment' type="url"  value="<%= $op %>" placeholder='https://example.com' class = 'url_class' /> 
+        </div>    
+%   }
+%    ++$i;
+% }
+      <div id = "url">
+          Язык программирования: <select name='language2' id='language'>
+% for my  $op (@$options_language) {
+            <option  value= '<%= $op->{name} %>' ><%= $op->{name} %></option>
+% }
+          </select>
+          Ссылка в интернете: <input name='url_of_fragment' type="url"  value='' placeholder='https://example.com' class = 'url_class' /> <br/>
+        </div>
+        </div>
+      <a href = "" id="addurl" >Добавить http ссылку на файл </a>
+% $i = 0;
+
+      <div id = "text_area_wrap" >
+% for my $op (@{$content->{'text_area_of_fragment'}}) {
+% if ( $op ne '' ) { 
+        <div >
+          Язык программирования: <select name='language3' id='language'>
+%   for my $op_lang (@$options_language) {
+%     my $sel = ''; 
+%     if ($op_lang->{name} eq $content->{'languages3'}->[$i]) {       
+%       $sel =' selected ';
+%     }
+           <option <%= $sel %> value= '<%= $op_lang->{name} %>' ><%= $op_lang->{name} %></option>
+%   }
+          </select>
+          Ввод кода: <textarea name='text_area_of_fragment' class = 'textarea_class' /><%= $op %></textarea><br/>
+        </div>
       </div>
-      <a href = "javascript:add_text_area()">Добавить окно ввода текста</a><br/>
-      <input type='submit' value = 'Загрузить' /> 
+% }
+ % ++$i;
+% }
+      <div id = "text_area" >
+          Язык программирования: <select name='language3' id='language'>
+% for my $op (@$options_language) {
+           <option  value= '<%= $op->{name} %>' ><%= $op->{name} %></option>
+% }
+          </select>
+          Ввод кода: <textarea name='text_area_of_fragment' class = 'textarea_class' /></textarea><br/>
+        </div>
+      </div>
+      <a href = "" id="addtext">Добавить окно ввода текста</a><br/>
+      <input type='submit' value = 'Загрузить' id='test_form_upload' />
+% if ($err eq "") {
+      <span color="red"><%= $err %></span>
+% }
     </form>
   </div>
 % my $url = $c->url_for("/")->to_abs;
     <a href="<%= $url %>"> Список сниппетов </a>
   </body>
    <script>
-    hljs.initHighlightingOnLoad();
-    var lang_installed = ''+hljs.listLanguages();     
-    var lang_array = lang_installed.split(/,/);
-    $.each(lang_array, function(index, value) { 
-      $('#language').append('<option value=' + value + '>' + value + '</option>');
-    });  
+     hljs.initHighlightingOnLoad();
    </script>
 </html>
