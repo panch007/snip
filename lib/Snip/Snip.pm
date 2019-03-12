@@ -1,3 +1,6 @@
+###  Пакет подпрограмм для Snip
+###
+
 package Snip::Snip;
 use base qw(Exporter);
 our @EXPORT = qw(
@@ -5,6 +8,7 @@ our @EXPORT = qw(
   test_snip_tiket
 );
 
+##  Проверка имени
 sub test_snip_name {
   my $c = shift;
   my $v = shift;
@@ -16,6 +20,7 @@ sub test_snip_name {
   return 0;
 }
 
+##  Проверка ключа
 sub test_snip_tiket {
   my $c = shift;
   my $v = shift;

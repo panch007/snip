@@ -17,7 +17,7 @@
     <div id="title"> Сниппет  
       <%= $i->{'name'} %> &nbsp;
       № <%= $i->{'idsnippet'} %> &nbsp;
-      добавлен <%= human_date $i->{'add_date'} %> &nbsp;
+      добавлен <%= $i->{'add_date'} %> &nbsp;
     </div>
 %
 % for my $i (@$content) {

@@ -14,7 +14,7 @@ sub get_prev_date_hash {
   my ($self,  $sdate, $limit_snippets_on_page) = @_;
   my $db= $self->{db};
   my $prev_date_hash = $db->query("
-    SELECT add_date::timestamp m1
+    SELECT to_char(add_date, 'dd-mm-yyyy HH24:MI:SS')
     FROM snippets_common
     WHERE add_date <= ?::timestamp with time zone
     ORDER BY add_date DESC
@@ -27,7 +27,7 @@ sub get_next_date_hash {
   my ($self,  $sdate, $limit_snippets_on_page) = @_;
   my $db= $self->{db};
   my $next_date_hash  = $db->query("
-    SELECT add_date::timestamp m1
+    SELECT to_char(add_date, 'dd-mm-yyyy HH24:MI:SS') m1
     FROM snippets_common
     WHERE add_date >= ?::timestamp with time zone
     ORDER BY add_date
@@ -48,7 +48,7 @@ sub get_list_of_snippets {
   my ($self,  $sdate, $limit_snippets_on_page) = @_;
   my $db= $self->{db};
   my $results = $db->query("
-   SELECT s.add_date, s.name, f.idsnippet, f.language, f.text_of_fragment
+   SELECT to_char(s.add_date, 'dd-mm-yyyy HH24:MI:SS') add_date, s.name, f.idsnippet, f.language, f.text_of_fragment
     FROM snippets_common s
     LEFT JOIN (
       SELECT min(id) idmin, idsnippet from fragments
@@ -66,7 +66,7 @@ sub get_fragments {
   my ($self,  $snip) = @_;
   my $db= $self->{db};
   my $results = $db->query("
-    SELECT s.add_date, s.name, f.idsnippet, f.language, f.text_of_fragment
+    SELECT to_char(s.add_date, 'dd-mm-yyyy HH24:MI:SS') add_date, s.name, f.idsnippet, f.language, f.text_of_fragment
     FROM snippets_common s
     JOIN fragments f
     ON s.id = f.idsnippet

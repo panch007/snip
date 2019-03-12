@@ -38,7 +38,7 @@
       <%= $i->{'name'} %> &nbsp;
       № <%= $i->{'idsnippet'} %> &nbsp;
       <%= $i->{'language'} %> &nbsp;
-      добавлен <%= human_date $i->{'add_date'} %> &nbsp;
+      добавлен <%= $i->{'add_date'} %> &nbsp;
         </div>
       </a>
 %   my $text = $i->{text_of_fragment};

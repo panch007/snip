@@ -15,7 +15,6 @@ use Mojolicious::Plugin::Human;
 use Mojo::Content::MultiPart;
 use Mojo::Upload;
 use Mojo::UserAgent;
-use Mojo::Date;
 use Mojolicious::Validator;
 use Mojolicious::Validator::Validation;
 use Mojo::JSON qw(decode_json encode_json);
@@ -36,19 +35,15 @@ if (my $secrets = app->config->{'secrets'}) {
   app->secrets($secrets);
 }
 
-plugin('Human', { date => '%d/%m/%Y' }); # Плугин используется для записи даты
-
 sub init_ua {
 ## Создание объекта для работы с урлами
   my $ua = shift ;
   $ua = Mojo::UserAgent->new;
-  my $connect_timeout = $config->{'connect_timeout'};
-  my $max_file_size = $config->{'max_file_size'};
-  my $request_timeout = $config->{'request_timeout'};
-  $ua->connect_timeout($connect_timeout);
-  $ua->max_response_size($max_file_size) ;
-  $ua->request_timeout($request_timeout);
-  $ua->inactivity_timeout($connect_timeout);
+
+  $ua->connect_timeout($config->{'connect_timeout'});
+  $ua->max_response_size($config->{'max_file_size'}) ;
+  $ua->request_timeout($config->{'request_timeout'});
+  $ua->inactivity_timeout($config->{'request_timeout'});
   return $ua;
 }
 
@@ -59,15 +54,16 @@ sub get_ip {
   my $local_adresses = shift;
 ## проверка доступности
   my $ua = shift;
-  my $tx =  $ua->head($url);
+  my $tx =  $ua->head($url) or return '0'; ##  если была сетевая ошибка при чтении заголовка запроса по данному урлу
   return '0' if (!$tx);
   if( $tx->res->code ){
     return '0' if( $tx->res->code >= 400);
 ### локальный адрес ?
-    my $ip = $tx->remote_address;
-    return '0' if ( index($local_adresses, $ip) > -1 );
+    my $ip = $tx->remote_address;  ##  поиск в массиве локальных адресов
+    $ip =~ s/\./\\./g;  # экранируем точку
+    return '0' if ( $local_adresses =~ m/$ip/ );
   } else  {  return '0';  }
-  return '1';
+  return '1'; #  1 - проверку прошли
 }
 
 get '/error' => sub {
@@ -88,6 +84,7 @@ get '/upload' => sub {
      $err = $c->session->{'err'};
    }
    my $options_language = $db->query("SELECT id, name FROM language")->hashes;  
+
    $c->session(expires => 1) if ($is_new);
    $c->stash( err => $err
      ,title =>'Загрузка нового сниппета.'.$snippets_name
@@ -99,7 +96,6 @@ get '/upload' => sub {
 get '/' => sub {
 ##  показ списка сниппетов
   my $c = shift;
-
   my $limit_snippets_on_page = $config->{'limit_snippets_on_page'}; ## количество сниппетов на странице
   my $limit_line = $config->{'limit_line'}; ##  количество строк первого фрагмента которые показываем 
 
@@ -112,6 +108,7 @@ get '/' => sub {
   $v->required('sdate')->like(qr/^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{4}/);
   $sdate = '01-01-2001' if ($v->has_error('sdate')); ## минимальная дата
   my $err = '';
+
   my $next_date = $sdate;
   my $prev_date = $sdate;
 
@@ -188,9 +185,9 @@ post '/upload' => sub {
   foreach my $url (@{$uploader->{'url_of_fragment'}}) {
     if (length($url)>0) {
       my $body = '';
-      $err = "ошибка сети $url";
+      $err = "";
       my $ts = {};
-      $ts = $ua->get($url);
+      $ts = $ua->get($url) or $err = 'ошибка сети $url';
       $err = $ts->error->{'message'}. " ".$url if ($ts->error);
       if($ts->res->is_success) {
         $body = $ts->res->body;
